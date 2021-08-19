@@ -36,7 +36,7 @@ def weisfeiler_lehman(G, compression):
                 new_label = compression[multiset]
             else:
                 new_label = len(compression) + 1
-                compression[new_label] = multiset
+                compression[multiset] = new_label
             if old_label in old_new_correspondence:
                 if old_new_correspondence[old_label] != new_label:
                     partition_changed = True
