@@ -1,6 +1,6 @@
 import networkx as nx
 
-def weisfeiler_lehman(G, compression):
+def weisfeiler_lehman(G, compression={():1}):
     """
     Performs the Weisfeiler-Lehman Algorithm which colours/labels a graphs vertices canonically.
 
