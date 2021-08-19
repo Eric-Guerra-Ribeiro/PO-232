@@ -48,6 +48,7 @@ def weisfeiler_lehman(G, compression):
             else:
                 new_old_correspondence[new_label] = old_label
             G.nodes[node]["label"] = new_label
+    # Creates the multiset of all the graph's nodes.
     graph_multiset = []
     for node in G.nodes:
         graph_multiset.append(G.nodes[node]["label"])
@@ -55,7 +56,7 @@ def weisfeiler_lehman(G, compression):
     return tuple(graph_multiset)
 
 
-def isomorphism_test(G, H):
+def isomorphism_test(G, H, print_labeling = False):
     """
     Performs a isomorphic test based on the coloring from the Weisfeiler-Lehman Algorithm.
     Cannot give a conclusive answer if the  graphs are isomorphic.
@@ -66,5 +67,15 @@ def isomorphism_test(G, H):
     :type G: networkx.classes.graph.Graph.
     :param H: Graph H which we want to know if is isomorphic to G.
     :type H: networkx.classes.graph.Graph.
+    :param print_labeling: if it is to print the Weisfeiler-Lehman Algorithm Labeling
+
     :return: True if the graphs could be isomorphic, False if they definitely are not.
+    :rtype: bool
     """
+    compression = {():1}
+    g_multiset = weisfeiler_lehman(G, compression)
+    h_multiset = weisfeiler_lehman(H, compression)
+    if print_labeling:
+        print("First Graph Labeling: ",g_multiset)
+        print("Second Graph Labeling: ", h_multiset)
+    return g_multiset == h_multiset
