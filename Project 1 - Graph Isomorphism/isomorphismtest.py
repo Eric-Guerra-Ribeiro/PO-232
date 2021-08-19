@@ -67,7 +67,8 @@ def isomorphism_test(G, H, print_labeling = False):
     :type G: networkx.classes.graph.Graph.
     :param H: Graph H which we want to know if is isomorphic to G.
     :type H: networkx.classes.graph.Graph.
-    :param print_labeling: if it is to print the Weisfeiler-Lehman Algorithm Labeling
+    :param print_labeling: if it is to print the Weisfeiler-Lehman Algorithm Labeling.
+    :type print_labeling: bool.
 
     :return: True if the graphs could be isomorphic, False if they definitely are not.
     :rtype: bool

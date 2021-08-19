@@ -22,7 +22,12 @@ def print_isomorphic_test(G, H, print_labeling):
     """
     Prints the isomorphic test result.
 
-    :param G:
+    :param G: Graph G which we want to know if is isomorphic to H.
+    :type G: networkx.classes.graph.Graph.
+    :param H: Graph H which we want to know if is isomorphic to G.
+    :type H: networkx.classes.graph.Graph.
+    :param print_labeling: if it is to print the Weisfeiler-Lehman Algorithm Labeling.
+    :type print_labeling: bool.
     """
     if isomorphismtest.isomorphism_test(G, H, print_labeling):
         print("Graphs could be isomorphic.")
