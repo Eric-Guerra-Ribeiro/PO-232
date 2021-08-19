@@ -9,34 +9,50 @@ def weisfeiler_lehman(G, compression):
     :param compression: Dicitionary used for the compressed label.
     :type compression: Dictionary.
 
-    :return: Coloured graph G.
-    :rtype: networkx.classes.graph.Graph.
+    :return: Graph as a multiset (represented by an ordered tuple) of its nodes' labels.
+    :rtype: int tuple which size matches the order of G.
     """
     # Starting conditions - all nodes are label as 1
     for node in G.nodes:
-        node["label"] = 1
-
-    labels_changed = True
-    # Colours the node iteratively util it converges
-    while labels_changed:
-        labels_changed = False
+        G.nodes[node]["label"] = 1
+    old_new_correspondence = {}
+    new_old_correspondence = {}
+    partition_changed = True
+    # Colours the node iteratively util the color partition converges
+    while partition_changed:
+        partition_changed = False
         for node in G.nodes:
-            node["multiset"] = []
-            node["multiset"].append(node["label"])
+            multiset_list = []
             for neighbor in G.adj[node]:
-                node["multiset"].append(neighbor["label"])
-            node["multiset"].sort()
+                multiset_list.append(G.nodes[neighbor]["label"])
+            multiset_list.sort()
+            G.nodes[node]["multiset"] = tuple(multiset_list)
+        old_new_correspondence.clear()
+        new_old_correspondence.clear()
         for node in G.nodes:
-            if node["multiset"] in compression:
-                new_label = compression[node["multiset"]]
+            multiset = G.nodes[node]["multiset"]
+            old_label = G.nodes[node]["label"]
+            if multiset in compression:
+                new_label = compression[multiset]
             else:
                 new_label = len(compression) + 1
-                compression[new_label] = node["multiset"]
-            if new_label != node["label"]:
-                labels_changed = True
-                node["label"] = new_label
-    return G
-
+                compression[new_label] = multiset
+            if old_label in old_new_correspondence:
+                if old_new_correspondence[old_label] != new_label:
+                    partition_changed = True
+            else:
+                old_new_correspondence[old_label] = new_label
+            if new_label in new_old_correspondence:
+                if new_old_correspondence[new_label] != old_label:
+                    partition_changed = True
+            else:
+                new_old_correspondence[new_label] = old_label
+            G.nodes[node]["label"] = new_label
+    graph_multiset = []
+    for node in G.nodes:
+        graph_multiset.append(G.nodes[node]["label"])
+    graph_multiset.sort()
+    return tuple(graph_multiset)
 
 
 def isomorphism_test(G, H):
