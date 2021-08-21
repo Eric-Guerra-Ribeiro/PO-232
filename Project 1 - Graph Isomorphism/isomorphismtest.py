@@ -22,7 +22,7 @@ def weisfeiler_lehman(G, compression={():1}):
     while partition_changed:
         partition_changed = False
         for node in G.nodes:
-            multiset_list = []
+            multiset_list = [G.nodes[node]["label"]]
             for neighbor in G.adj[node]:
                 multiset_list.append(G.nodes[neighbor]["label"])
             multiset_list.sort()
