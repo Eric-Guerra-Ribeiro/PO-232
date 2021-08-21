@@ -2,6 +2,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import isomorphismtest
 
+# YouTube Video link: https://youtu.be/IABxLSgHSM8
+
 def draw_graphs(G, H):
     """
     Draws graphs G and H.
