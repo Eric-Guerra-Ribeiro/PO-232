@@ -38,6 +38,8 @@ def weisfeiler_lehman(G, compression={():1}):
                 new_label = len(compression) + 1
                 compression[multiset] = new_label
             if not partition_changed:
+                # Checks bijection between old labeling and new labeling
+                # If there is a bijection, partitions did not change (algorithm converged)
                 if old_label in old_new_correspondence:
                     if old_new_correspondence[old_label] != new_label:
                         partition_changed = True
