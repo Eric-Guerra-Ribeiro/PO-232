@@ -77,6 +77,6 @@ def isomorphism_test(G, H, print_labeling = False):
     g_multiset = weisfeiler_lehman(G, compression)
     h_multiset = weisfeiler_lehman(H, compression)
     if print_labeling:
-        print("First Graph Labeling: ",g_multiset)
+        print("First Graph Labeling: ", g_multiset)
         print("Second Graph Labeling: ", h_multiset)
     return g_multiset == h_multiset
