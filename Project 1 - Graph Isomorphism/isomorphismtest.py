@@ -37,16 +37,17 @@ def weisfeiler_lehman(G, compression={():1}):
             else:
                 new_label = len(compression) + 1
                 compression[multiset] = new_label
-            if old_label in old_new_correspondence:
-                if old_new_correspondence[old_label] != new_label:
-                    partition_changed = True
-            else:
-                old_new_correspondence[old_label] = new_label
-            if new_label in new_old_correspondence:
-                if new_old_correspondence[new_label] != old_label:
-                    partition_changed = True
-            else:
-                new_old_correspondence[new_label] = old_label
+            if not partition_changed:
+                if old_label in old_new_correspondence:
+                    if old_new_correspondence[old_label] != new_label:
+                        partition_changed = True
+                else:
+                    old_new_correspondence[old_label] = new_label
+                if new_label in new_old_correspondence:
+                    if new_old_correspondence[new_label] != old_label:
+                        partition_changed = True
+                else:
+                    new_old_correspondence[new_label] = old_label
             G.nodes[node]["label"] = new_label
     # Creates the multiset of all the graph's nodes.
     graph_multiset = []
