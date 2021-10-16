@@ -3,14 +3,14 @@ import random
 from numpy import inf
 import heapq
 
-def jarnik_prim(graph):
+def jarnik_prim_simple(graph):
     """
-    Performs the Jarník-Prim Algorithm which finds all minimum spanning trees.
+    Performs the Jarník-Prim Algorithm which finds a minimum spanning trees.
 
     :param graph: Graph which the tree spans.
     :type graph: networkx.classes.graph.Graph.
 
-    :return trees: List with all the minimum spanning trees.
+    :return trees: List with a minimum spanning trees.
     :rtype trees: networkx.classes.graph.Graph list
     :return cost: sum of the weight of all edges
     :rtype cost: float/int
