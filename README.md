@@ -6,3 +6,8 @@ Test if two graphs are isomorphic in polynomial time with no false negatives, bu
 YouTube video with explanation of the algorithm and implementation: https://youtu.be/IABxLSgHSM8 (in Portuguese)
 
 Used David Bieber's post's images in the explanation: https://www.davidbieber.com/post/2019-05-10-weisfeiler-lehman-isomorphism-test/ (in English)
+
+## Project 2 - Jarník-Prim's Algorithm to find minimum spanning trees.
+Finds all MST of a conected graph, may have repetitions.
+
+YouTube video with explanation of the algorithm and implementation: https://youtu.be/cdxsbVqchbI (in Portuguese)
