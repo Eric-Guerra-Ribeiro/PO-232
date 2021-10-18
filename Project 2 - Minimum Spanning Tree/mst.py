@@ -26,6 +26,8 @@ def jarnik_prim_simple(graph):
             continue
         heapq.heappush(priority_queue, (graph.edges[root, node]["weight"], root, node))
     while priority_queue:
+        if trees[0].number_of_nodes() == graph.number_of_nodes():
+            break
         node_info = heapq.heappop(priority_queue)
         edge_weight = node_info[0]
         parent = node_info[1]
@@ -55,6 +57,8 @@ def jarnik_prim_recursive(graph, trees, tree_index, cost, priority_queue):
     :rtype cost: float/int
     """
     while priority_queue:
+        if trees[tree_index].number_of_nodes() == graph.number_of_nodes():
+            break
         node_info = heapq.heappop(priority_queue)
         edge_weight = node_info[0]
         parent = node_info[1]
