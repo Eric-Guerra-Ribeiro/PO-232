@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import mst
 
-# YouTube Video link: 
+# YouTube Video link: https://youtu.be/cdxsbVqchbI
 
 def show_result(G, show_all=False):
     """
