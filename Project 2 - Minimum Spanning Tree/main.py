@@ -1,8 +1,5 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-from networkx.generators import trees
-from networkx.readwrite.json_graph import tree
-from numpy import product
 import mst
 
 # YouTube Video link: 
