@@ -65,7 +65,7 @@ def jarnik_prim_recursive(graph, trees, tree_index, cost, priority_queue):
         node = node_info[2]
         if node in trees[tree_index]:
             continue
-        if priority_queue and priority_queue[0][0] == edge_weight and priority_queue[0][2] not in trees[tree_index]:
+        if priority_queue and priority_queue[0][0] == edge_weight:
             popped = []
             aux_priority_queue = copy.deepcopy(priority_queue)
             while aux_priority_queue and aux_priority_queue[0][0] == edge_weight:
