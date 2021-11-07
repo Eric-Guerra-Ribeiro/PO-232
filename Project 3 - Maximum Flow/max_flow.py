@@ -49,12 +49,52 @@ def bfs(residual_graph, source, sink):
     return path
 
 
+def increment_flow(residual_graph, augmented_path):
+    """
+    Increments the flow along the augmented path and returns the bottleneck value.
+
+    :param residual_graph: Residual graph in which an augmented path is.
+    :type residual_graph: networkx.classes.digraph.DiGraph
+    :param augmented_path: Augmented path in which the flow will be incremented.
+    :type augmented_path: list
+
+    :return: Bottleneck flow value in augmented path.
+    :rtype: int
+    """
+    pass
+
+
+def find_min_cut(residual_graph):
+    """
+    Find the minimum cut of the flow network.
+
+    :param residual_graph: Residual graph in which an augmented path is.
+    :type residual_graph: networkx.classes.digraph.DiGraph
+
+    :return: Minimum cut of the flow network.
+    :rtype: networkx.classes.digraph.DiGraph
+    """
+    pass
+
+
+def update_flow(graph, residual_graph):
+    """
+    Adds to the original graph the flow which correspond to the maximum total flow.
+
+    :param graph: digraph in which the maximum flow is calculated.
+    :type graph: networkx.classes.digraph.DiGraph
+    :param residual_graph: Residual graph with the flow values.
+    :type residual_graph: networkx.classes.digraph.DiGraph
+    """
+    pass
+
+
 def ford_fulkerson(graph, source, sink):
     """
     Finds the maximum flow in graph using the Edmonds-Karp implementation of
     the Ford-Fulkerson Algorithm.
 
-    :param graph: digraph in which the maximum flow is calculated
+    :param graph: digraph in which the maximum flow is calculated.
     :type graph: networkx.classes.digraph.DiGraph
     :param source: Source node.
     :type source: any hashable type
