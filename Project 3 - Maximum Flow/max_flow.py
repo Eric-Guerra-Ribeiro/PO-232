@@ -1,5 +1,6 @@
 import networkx as nx
 import collections
+from math import inf
 
 
 def bfs(residual_graph, source, sink):
@@ -61,7 +62,21 @@ def increment_flow(residual_graph, augmented_path):
     :return: Bottleneck flow value in augmented path.
     :rtype: int
     """
-    pass
+    bottleneck_flow = inf
+    for i in range(len(augmented_path) - 1):
+        edge = residual_graph.edge[augmented_path[i], augmented_path[i+1]]
+        bottleneck_flow = min(edge["max_flow"] - 
+                              edge["current_flow"], bottleneck_flow)
+    for i in range(len(augmented_path) - 1):
+        edge = residual_graph.edge[augmented_path[i], augmented_path[i+1]]
+        reverse_edge = residual_graph.edge[augmented_path[i+1], augmented_path[i]]
+        if edge["current_flow"] < 0:
+            sign = -1
+        else:
+            sign = 1
+        edge["current_flow"] += sign*bottleneck_flow
+        reverse_edge["current_flow"] -= sign*bottleneck_flow
+    return bottleneck_flow
 
 
 def find_min_cut(residual_graph):
