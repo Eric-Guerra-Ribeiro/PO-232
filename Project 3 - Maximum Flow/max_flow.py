@@ -124,7 +124,7 @@ def ford_fulkerson(graph, source, sink):
     pass
     residual_graph = nx.DiGraph(graph)
     for edge in graph.edges:
-        residual_graph.add_weighted_edges_from([(edge[1], edge[0], 0)])
+        residual_graph.add_edge((edge[1], edge[0], {"max_flow":0}))
     for edge in residual_graph.edges:
         residual_graph.edges[edge[0], edge[1]]["current_flow"] = 0
     augmented_path = bfs(residual_graph)
