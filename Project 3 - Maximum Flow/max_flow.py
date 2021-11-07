@@ -79,17 +79,36 @@ def increment_flow(residual_graph, augmented_path):
     return bottleneck_flow
 
 
-def find_min_cut(residual_graph):
+def find_min_cut(residual_graph, source):
     """
     Find the minimum cut of the flow network.
 
     :param residual_graph: Residual graph in which an augmented path is.
     :type residual_graph: networkx.classes.digraph.DiGraph
+    :param source: Source node.
+    :type source: any hashable type
 
     :return: Minimum cut of the flow network.
     :rtype: networkx.classes.digraph.DiGraph
     """
-    pass
+    min_cut = nx.DiGraph()
+    min_cut.add_node(source)
+    queue = collections.deque()
+    for node in residual_graph.successors(source):
+        edge = residual_graph.edge[source, node]
+        if edge["max_flow"] - edge["current_flow"] > 0:
+            min_cut.add_node(node)
+            min_cut.add_edge((source, node, {"max_flow" : edge["max_flow"]}, {"current_flow" : edge["current_flow"]}))
+            queue.append(node)
+    while queue:
+        node = queue.popleft()
+        for adj_node in residual_graph.successors(node):
+            edge = residual_graph.edge[node, adj_node]
+            if edge["max_flow"] - edge["current_flow"] > 0:
+                min_cut.add_node(adj_node)
+                min_cut.add_edge((node, adj_node, {"max_flow" : edge["max_flow"]}, {"current_flow" : edge["current_flow"]}))
+                queue.append(adj_node)
+    return min_cut
 
 
 def update_flow(graph, residual_graph):
