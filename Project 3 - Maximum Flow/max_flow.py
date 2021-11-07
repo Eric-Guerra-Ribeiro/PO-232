@@ -36,7 +36,7 @@ def bfs(residual_graph, source, sink):
             while parent_node != None:
                 path.append(parent_node)
                 parent_node = parent[parent_node]
-            path = path[-1:]
+            path = path.reverse()
             break
         for adj_node in residual_graph.successors(node):
             if not visited[adj_node]:
@@ -46,7 +46,6 @@ def bfs(residual_graph, source, sink):
                     parent[adj_node] = node
                     queue.append(adj_node)
     return path
-
 
 
 def ford_fulkerson(graph, source, sink):
