@@ -2,6 +2,8 @@ import networkx as nx
 import collections
 from math import inf
 
+from numpy import sign
+
 
 def bfs(residual_graph, source, sink):
     """
@@ -149,8 +151,7 @@ def ford_fulkerson(graph, source, sink):
     augmented_path = bfs(residual_graph)
     max_flow = 0
     while len(augmented_path) != 0:
-        # TODO increment flow
-        augmented_path = bfs(residual_graph)
-    min_cut = nx.DiGraph()
-    # TODO find min_cut
+        max_flow += increment_flow(residual_graph, augmented_path)
+        augmented_path = bfs(residual_graph, source, sink)
+    min_cut = find_min_cut(residual_graph, source)
     return max_flow, min_cut
