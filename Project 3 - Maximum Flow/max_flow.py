@@ -1,5 +1,5 @@
 import networkx as nx
-import queue
+import collections
 
 def bfs(residual_graph, source, sink):
     """
@@ -16,6 +16,37 @@ def bfs(residual_graph, source, sink):
     :return: The augmented path that was found or an empty list, if no such path exists.
     :rtype: list
     """
+    visited = {}
+    parent = {}
+    for node in residual_graph:
+        visited[node] = False
+        parent[node] = None
+    queue = collections.deque()
+    path = []
+    visited[source] = True
+    for node in residual_graph.successors(source):
+        visited[node] = True
+        parent[node] = source
+        queue.append(node)
+    while queue:
+        node = queue.popleft()
+        if node == sink:
+            path.append(node)
+            parent_node = parent[node]
+            while parent_node != None:
+                path.append(parent_node)
+                parent_node = parent[parent_node]
+            path = path[-1:]
+            break
+        for adj_node in residual_graph.successors(node):
+            if not visited[adj_node]:
+                edge = residual_graph[node, adj_node]
+                if edge["max_flow"] - edge["current_flow"] > 0: 
+                    visited[adj_node] = True
+                    parent[adj_node] = node
+                    queue.append(adj_node)
+    return path
+
 
 
 def ford_fulkerson(graph, source, sink):
