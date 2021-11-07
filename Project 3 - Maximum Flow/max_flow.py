@@ -2,8 +2,6 @@ import networkx as nx
 import collections
 from math import inf
 
-from numpy import sign
-
 
 def bfs(residual_graph, source, sink):
     """
