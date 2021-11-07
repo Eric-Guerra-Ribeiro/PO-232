@@ -1,6 +1,7 @@
 import networkx as nx
 import collections
 
+
 def bfs(residual_graph, source, sink):
     """
     Finds an augmented path from the residual graph using breadth first search.
@@ -60,9 +61,22 @@ def ford_fulkerson(graph, source, sink):
     :param sink: Sink node.
     :type sink: any hashable type
 
-    :return maximum_flow: Maximum flow possible in the graph.
-    :rtype maximum_flow: int
-    :return minimum_cut: Cut that separates the sink and the source with minimum edge flow sum
-    :rtype minimum_cut: networkx.classes.digraph.DiGraph
+    :return max_flow: Maximum flow possible in the graph.
+    :rtype max_flow: int
+    :return min_cut: Cut that separates the sink and the source with minimum edge flow sum
+    :rtype min_cut: networkx.classes.digraph.DiGraph
     """
     pass
+    residual_graph = nx.DiGraph(graph)
+    for edge in graph.edges:
+        residual_graph.add_weighted_edges_from([(edge[1], edge[0], 0)])
+    for edge in residual_graph.edges:
+        residual_graph.edges[edge[0], edge[1]]["current_flow"] = 0
+    augmented_path = bfs(residual_graph)
+    max_flow = 0
+    while len(augmented_path) != 0:
+        # TODO increment flow
+        augmented_path = bfs(residual_graph)
+    min_cut = nx.DiGraph()
+    # TODO find min_cut
+    return max_flow, min_cut
