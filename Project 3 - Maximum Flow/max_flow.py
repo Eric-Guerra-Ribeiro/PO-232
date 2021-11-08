@@ -81,12 +81,12 @@ def increment_flow(residual_graph, augmented_path):
     return bottleneck_flow
 
 
-def find_min_cut(residual_graph, source):
+def find_min_cut(graph, source):
     """
     Find the minimum cut of the flow network.
 
-    :param residual_graph: Residual graph in which an augmented path is.
-    :type residual_graph: networkx.classes.digraph.DiGraph
+    :param graph: Graph in which the flow happens.
+    :type graph: networkx.classes.digraph.DiGraph
     :param source: Source node.
     :type source: any hashable type
 
@@ -96,16 +96,16 @@ def find_min_cut(residual_graph, source):
     min_cut = nx.DiGraph()
     min_cut.add_node(source)
     queue = collections.deque()
-    for node in residual_graph.successors(source):
-        edge = residual_graph.edges[source, node]
+    for node in graph.successors(source):
+        edge = graph.edges[source, node]
         if edge["max_flow"] - edge["current_flow"] > 0:
             min_cut.add_node(node)
             min_cut.add_edges_from([(source, node, {"max_flow" : edge["max_flow"], "current_flow" : edge["current_flow"]})])
             queue.append(node)
     while queue:
         node = queue.popleft()
-        for adj_node in residual_graph.successors(node):
-            edge = residual_graph.edges[node, adj_node]
+        for adj_node in graph.successors(node):
+            edge = graph.edges[node, adj_node]
             if edge["max_flow"] - edge["current_flow"] > 0:
                 min_cut.add_node(adj_node)
                 min_cut.add_edges_from([(node, adj_node, {"max_flow" : edge["max_flow"], "current_flow" : edge["current_flow"]})])
@@ -155,6 +155,6 @@ def ford_fulkerson(graph, source, sink):
     while augmented_path:
         max_flow += increment_flow(residual_graph, augmented_path)
         augmented_path = bfs(residual_graph, source, sink)
-    min_cut = find_min_cut(residual_graph, source)
     update_flow(graph, residual_graph)
+    min_cut = find_min_cut(graph, source)
     return max_flow, min_cut
