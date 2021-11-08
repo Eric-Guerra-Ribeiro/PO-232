@@ -11,14 +11,16 @@ def show_result(graph):
     :param graph: Graph to be drawn along with the flow within its edges.
     :type graph: networkx.classes.digraph.DiGraph
     """
+    max_flow.ford_fulkerson(graph, "s", "t")
     pos = nx.spring_layout(A)
     max_flow_weights = {(u,v,):d["max_flow"] for u,v,d in A.edges(data=True)}
+    current_flow_weights = {(u,v,):d["current_flow"] for u,v,d in A.edges(data=True)}
     subax1 = plt.subplot(121)
     nx.draw(A, pos=pos, with_labels=True, font_weight='bold')
     nx.draw_networkx_edge_labels(A, pos, edge_labels=max_flow_weights)
     subax2 = plt.subplot(122)
     nx.draw(A, pos=pos, with_labels=True, font_weight='bold')
-    nx.draw_networkx_edge_labels(A, pos, edge_labels=max_flow_weights)
+    nx.draw_networkx_edge_labels(A, pos, edge_labels=current_flow_weights)
     plt.show()
     
 
