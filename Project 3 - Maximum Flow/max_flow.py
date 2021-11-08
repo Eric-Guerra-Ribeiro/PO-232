@@ -27,9 +27,11 @@ def bfs(residual_graph, source, sink):
     path = []
     visited[source] = True
     for node in residual_graph.successors(source):
-        visited[node] = True
-        parent[node] = source
-        queue.append(node)
+        edge = residual_graph.edges[source, node]
+        if edge["max_flow"] - edge["current_flow"] > 0:
+            visited[node] = True
+            parent[node] = source
+            queue.append(node)
     while queue:
         node = queue.popleft()
         if node == sink:
@@ -43,7 +45,7 @@ def bfs(residual_graph, source, sink):
         for adj_node in residual_graph.successors(node):
             if not visited[adj_node]:
                 edge = residual_graph.edges[node, adj_node]
-                if edge["max_flow"] - edge["current_flow"] > 0: 
+                if edge["max_flow"] - edge["current_flow"] > 0:
                     visited[adj_node] = True
                     parent[adj_node] = node
                     queue.append(adj_node)
