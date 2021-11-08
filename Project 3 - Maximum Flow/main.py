@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import max_flow
 
-# YouTube Video link: 
+# YouTube Video link: https://youtu.be/E4bUyrP4txE
 
 def show_result(graph):
     """
