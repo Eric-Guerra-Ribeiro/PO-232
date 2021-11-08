@@ -28,7 +28,7 @@ def bfs(residual_graph, source, sink):
     visited[source] = True
     for node in residual_graph.successors(source):
         edge = residual_graph.edges[source, node]
-        if edge["max_flow"] - edge["current_flow"] > 0:
+        if edge["capacity"] - edge["flow"] > 0:
             visited[node] = True
             parent[node] = source
             queue.append(node)
@@ -45,7 +45,7 @@ def bfs(residual_graph, source, sink):
         for adj_node in residual_graph.successors(node):
             if not visited[adj_node]:
                 edge = residual_graph.edges[node, adj_node]
-                if edge["max_flow"] - edge["current_flow"] > 0:
+                if edge["capacity"] - edge["flow"] > 0:
                     visited[adj_node] = True
                     parent[adj_node] = node
                     queue.append(adj_node)
@@ -67,17 +67,17 @@ def increment_flow(residual_graph, augmenting_path):
     bottleneck_flow = inf
     for i in range(len(augmenting_path) - 1):
         edge = residual_graph.edges[augmenting_path[i], augmenting_path[i+1]]
-        bottleneck_flow = min(edge["max_flow"] - 
-                              edge["current_flow"], bottleneck_flow)
+        bottleneck_flow = min(edge["capacity"] - 
+                              edge["flow"], bottleneck_flow)
     for i in range(len(augmenting_path) - 1):
         edge = residual_graph.edges[augmenting_path[i], augmenting_path[i+1]]
         reverse_edge = residual_graph.edges[augmenting_path[i+1], augmenting_path[i]]
-        if edge["current_flow"] < 0:
+        if edge["flow"] < 0:
             sign = -1
         else:
             sign = 1
-        edge["current_flow"] += sign*bottleneck_flow
-        reverse_edge["current_flow"] -= sign*bottleneck_flow
+        edge["flow"] += sign*bottleneck_flow
+        reverse_edge["flow"] -= sign*bottleneck_flow
     return bottleneck_flow
 
 
@@ -98,17 +98,17 @@ def find_min_cut(graph, source):
     queue = collections.deque()
     for node in graph.successors(source):
         edge = graph.edges[source, node]
-        if edge["max_flow"] - edge["current_flow"] > 0:
+        if edge["capacity"] - edge["flow"] > 0:
             min_cut.add_node(node)
-            min_cut.add_edges_from([(source, node, {"max_flow" : edge["max_flow"], "current_flow" : edge["current_flow"]})])
+            min_cut.add_edges_from([(source, node, {"capacity" : edge["capacity"], "flow" : edge["flow"]})])
             queue.append(node)
     while queue:
         node = queue.popleft()
         for adj_node in graph.successors(node):
             edge = graph.edges[node, adj_node]
-            if edge["max_flow"] - edge["current_flow"] > 0:
+            if edge["capacity"] - edge["flow"] > 0:
                 min_cut.add_node(adj_node)
-                min_cut.add_edges_from([(node, adj_node, {"max_flow" : edge["max_flow"], "current_flow" : edge["current_flow"]})])
+                min_cut.add_edges_from([(node, adj_node, {"capacity" : edge["capacity"], "flow" : edge["flow"]})])
                 queue.append(adj_node)
     return min_cut
 
@@ -123,8 +123,8 @@ def update_flow(graph, residual_graph):
     :type residual_graph: networkx.classes.digraph.DiGraph
     """
     for edge in graph.edges:
-        flow = residual_graph.edges[edge[0], edge[1]]["current_flow"]
-        graph.edges[edge[0], edge[1]]["current_flow"] = flow
+        flow = residual_graph.edges[edge[0], edge[1]]["flow"]
+        graph.edges[edge[0], edge[1]]["flow"] = flow
 
 
 def ford_fulkerson(graph, source, sink):
@@ -147,9 +147,9 @@ def ford_fulkerson(graph, source, sink):
     pass
     residual_graph = nx.DiGraph(graph)
     for edge in graph.edges:
-        residual_graph.add_edges_from([(edge[1], edge[0], {"max_flow":0})])
+        residual_graph.add_edges_from([(edge[1], edge[0], {"capacity":0})])
     for edge in residual_graph.edges:
-        residual_graph.edges[edge[0], edge[1]]["current_flow"] = 0
+        residual_graph.edges[edge[0], edge[1]]["flow"] = 0
     augmenting_path = bfs(residual_graph, source, sink)
     max_flow = 0
     while augmenting_path:
