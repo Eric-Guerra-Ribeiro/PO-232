@@ -15,4 +15,8 @@ def show_result(graph):
     
 
 A = nx.DiGraph()
-print(type(A))
+A.add_nodes_from(["s", 1, 2, "t"])
+A.add_edges_from([("s", 1, {"max_flow" : 1000}), ("s", 2, {"max_flow" : 1000}),
+                 (1, "t", {"max_flow" : 1000}), (1, 2, {"max_flow" : 1}),
+                 (2, "t", {"max_flow" : 1000})])
+show_result(A)
