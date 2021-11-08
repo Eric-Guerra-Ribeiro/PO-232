@@ -144,7 +144,6 @@ def ford_fulkerson(graph, source, sink):
     :return min_cut: Cut that separates the sink and the source with minimum edge flow sum
     :rtype min_cut: networkx.classes.digraph.DiGraph
     """
-    pass
     residual_graph = nx.DiGraph(graph)
     for edge in graph.edges:
         residual_graph.add_edges_from([(edge[1], edge[0], {"capacity":0})])
