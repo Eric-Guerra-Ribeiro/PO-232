@@ -11,7 +11,8 @@ def show_result(graph):
     :param graph: Graph to be drawn along with the flow within its edges.
     :type graph: networkx.classes.digraph.DiGraph
     """
-    max_flow.ford_fulkerson(graph, "s", "t")
+    maximum_flow, min_cut = max_flow.ford_fulkerson(graph, "s", "t")
+    print("The maximum flow is {}".format(maximum_flow))
     pos = nx.spring_layout(A)
     max_flow_weights = {(u,v,):d["max_flow"] for u,v,d in A.edges(data=True)}
     current_flow_weights = {(u,v,):d["current_flow"] for u,v,d in A.edges(data=True)}
