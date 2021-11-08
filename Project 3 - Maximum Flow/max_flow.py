@@ -42,7 +42,7 @@ def bfs(residual_graph, source, sink):
             break
         for adj_node in residual_graph.successors(node):
             if not visited[adj_node]:
-                edge = residual_graph[node, adj_node]
+                edge = residual_graph.edges[node, adj_node]
                 if edge["max_flow"] - edge["current_flow"] > 0: 
                     visited[adj_node] = True
                     parent[adj_node] = node
@@ -64,7 +64,7 @@ def increment_flow(residual_graph, augmented_path):
     """
     bottleneck_flow = inf
     for i in range(len(augmented_path) - 1):
-        edge = residual_graph.edge[augmented_path[i], augmented_path[i+1]]
+        edge = residual_graph.edges[augmented_path[i], augmented_path[i+1]]
         bottleneck_flow = min(edge["max_flow"] - 
                               edge["current_flow"], bottleneck_flow)
     for i in range(len(augmented_path) - 1):
@@ -95,18 +95,18 @@ def find_min_cut(residual_graph, source):
     min_cut.add_node(source)
     queue = collections.deque()
     for node in residual_graph.successors(source):
-        edge = residual_graph.edge[source, node]
+        edge = residual_graph.edges[source, node]
         if edge["max_flow"] - edge["current_flow"] > 0:
             min_cut.add_node(node)
-            min_cut.add_edge((source, node, {"max_flow" : edge["max_flow"]}, {"current_flow" : edge["current_flow"]}))
+            min_cut.add_edges_from([(source, node, {"max_flow" : edge["max_flow"], "current_flow" : edge["current_flow"]})])
             queue.append(node)
     while queue:
         node = queue.popleft()
         for adj_node in residual_graph.successors(node):
-            edge = residual_graph.edge[node, adj_node]
+            edge = residual_graph.edges[node, adj_node]
             if edge["max_flow"] - edge["current_flow"] > 0:
                 min_cut.add_node(adj_node)
-                min_cut.add_edge((node, adj_node, {"max_flow" : edge["max_flow"]}, {"current_flow" : edge["current_flow"]}))
+                min_cut.add_edges_from([(node, adj_node, {"max_flow" : edge["max_flow"], "current_flow" : edge["current_flow"]})])
                 queue.append(adj_node)
     return min_cut
 
@@ -143,12 +143,12 @@ def ford_fulkerson(graph, source, sink):
     pass
     residual_graph = nx.DiGraph(graph)
     for edge in graph.edges:
-        residual_graph.add_edge((edge[1], edge[0], {"max_flow":0}))
+        residual_graph.add_edges_from([(edge[1], edge[0], {"max_flow":0})])
     for edge in residual_graph.edges:
         residual_graph.edges[edge[0], edge[1]]["current_flow"] = 0
-    augmented_path = bfs(residual_graph)
+    augmented_path = bfs(residual_graph, source, sink)
     max_flow = 0
-    while len(augmented_path) != 0:
+    while augmented_path:
         max_flow += increment_flow(residual_graph, augmented_path)
         augmented_path = bfs(residual_graph, source, sink)
     min_cut = find_min_cut(residual_graph, source)
