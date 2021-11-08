@@ -38,7 +38,7 @@ def bfs(residual_graph, source, sink):
             while parent_node != None:
                 path.append(parent_node)
                 parent_node = parent[parent_node]
-            path = path.reverse()
+            path.reverse()
             break
         for adj_node in residual_graph.successors(node):
             if not visited[adj_node]:
@@ -68,8 +68,8 @@ def increment_flow(residual_graph, augmented_path):
         bottleneck_flow = min(edge["max_flow"] - 
                               edge["current_flow"], bottleneck_flow)
     for i in range(len(augmented_path) - 1):
-        edge = residual_graph.edge[augmented_path[i], augmented_path[i+1]]
-        reverse_edge = residual_graph.edge[augmented_path[i+1], augmented_path[i]]
+        edge = residual_graph.edges[augmented_path[i], augmented_path[i+1]]
+        reverse_edge = residual_graph.edges[augmented_path[i+1], augmented_path[i]]
         if edge["current_flow"] < 0:
             sign = -1
         else:
