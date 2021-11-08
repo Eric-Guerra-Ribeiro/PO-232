@@ -26,15 +26,18 @@ def show_result(graph):
     
 
 A = nx.DiGraph()
-A.add_nodes_from(["s", 1, 2, "t"])
-A.add_edges_from([("s", 1, {"max_flow" : 1000}), ("s", 2, {"max_flow" : 1000}),
+A.add_nodes_from(["s", "t", 1])
+A.add_edges_from([("s", 1, {"max_flow" : 1}), (1, "t", {"max_flow" : 10})])
+B = nx.DiGraph()
+B.add_nodes_from(["s", 1, 2, "t"])
+B.add_edges_from([("s", 1, {"max_flow" : 1000}), ("s", 2, {"max_flow" : 1000}),
                  (1, "t", {"max_flow" : 1000}), (1, 2, {"max_flow" : 1}),
                  (2, "t", {"max_flow" : 1000})])
-B = nx.DiGraph()
-B.add_nodes_from(["s", 1, 2, 3, 4, "t"])
-B.add_edges_from([("s", 1, {"max_flow" : 10}), ("s", 2, {"max_flow" : 10}), (1, 2, {"max_flow" : 2}),
+C = nx.DiGraph()
+C.add_nodes_from(["s", 1, 2, 3, 4, "t"])
+C.add_edges_from([("s", 1, {"max_flow" : 10}), ("s", 2, {"max_flow" : 10}), (1, 2, {"max_flow" : 2}),
                  (1, 3, {"max_flow" : 4}), (1, 4, {"max_flow" : 8}), (2, 4, {"max_flow" : 9}),
                  (3, "t", {"max_flow" : 10}), (4, 3, {"max_flow" : 6}), (4, "t", {"max_flow" : 10})])
 show_result(A)
 show_result(B)
-
+show_result(C)
