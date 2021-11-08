@@ -14,17 +14,15 @@ def show_result(graph):
     maximum_flow, min_cut = max_flow.ford_fulkerson(graph, "s", "t")
     print("The maximum flow is {}".format(maximum_flow))
     pos = nx.spring_layout(graph)
-    max_flow_weights = {(u, v,):d["max_flow"] for u, v, d in graph.edges(data=True)}
-    current_flow_weights = {(u, v,):d["current_flow"] for u, v, d in graph.edges(data=True)}
-    subax1 = plt.subplot(121)
+    flow_weights = {(u, v,):"{}/{}".format(d["current_flow"], d["max_flow"]) for u, v, d in graph.edges(data=True)}
     nx.draw(graph, pos=pos, with_labels=True, font_weight='bold')
-    nx.draw_networkx_edge_labels(graph, pos, edge_labels=max_flow_weights)
-    subax2 = plt.subplot(122)
-    nx.draw(graph, pos=pos, with_labels=True, font_weight='bold')
-    nx.draw_networkx_edge_labels(graph, pos, edge_labels=current_flow_weights)
+    nx.draw_networkx_edge_labels(graph, pos, edge_labels=flow_weights)
     plt.show()
     pos = nx.spring_layout(min_cut)
     nx.draw(min_cut, pos=pos, with_labels=True, font_weight='bold')
+    if min_cut.number_of_edges() > 0:
+        flow_weights = {(u, v,):"{}/{}".format(d["current_flow"], d["max_flow"]) for u, v, d in min_cut.edges(data=True)}
+        nx.draw_networkx_edge_labels(min_cut, pos, edge_labels=flow_weights)
     plt.show()
     
 
