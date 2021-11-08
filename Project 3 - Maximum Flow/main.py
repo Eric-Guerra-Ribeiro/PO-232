@@ -30,7 +30,7 @@ def show_result(graph):
 
 A = nx.DiGraph()
 A.add_nodes_from(["s", "t", 1])
-A.add_edges_from([("s", 1, {"max_flow" : 1}), (1, "t", {"max_flow" : 10})])
+A.add_edges_from([("s", 1, {"max_flow" : 10}), (1, "t", {"max_flow" : 1})])
 B = nx.DiGraph()
 B.add_nodes_from(["s", 1, 2, "t"])
 B.add_edges_from([("s", 1, {"max_flow" : 1000}), ("s", 2, {"max_flow" : 1000}),
