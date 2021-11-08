@@ -120,7 +120,9 @@ def update_flow(graph, residual_graph):
     :param residual_graph: Residual graph with the flow values.
     :type residual_graph: networkx.classes.digraph.DiGraph
     """
-    pass
+    for edge in graph.edges:
+        flow = residual_graph.edges[edge[0], edge[1]]["current_flow"]
+        graph.edges[edge[0], edge[1]]["current_flow"] = flow
 
 
 def ford_fulkerson(graph, source, sink):
@@ -152,4 +154,5 @@ def ford_fulkerson(graph, source, sink):
         max_flow += increment_flow(residual_graph, augmented_path)
         augmented_path = bfs(residual_graph, source, sink)
     min_cut = find_min_cut(residual_graph, source)
+    update_flow(graph, residual_graph)
     return max_flow, min_cut
