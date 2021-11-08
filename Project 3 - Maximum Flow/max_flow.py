@@ -5,17 +5,17 @@ from math import inf
 
 def bfs(residual_graph, source, sink):
     """
-    Finds an augmented path from the residual graph using breadth first search.
-    If no augmented path exists, returns an empty graph.
+    Finds an augmenting path from the residual graph using breadth first search.
+    If no augmenting path exists, returns an empty graph.
 
-    :param residual_graph: Residual graph in which an augmented path may be found.
+    :param residual_graph: Residual graph in which an augmenting path may be found.
     :type residual_graph: networkx.classes.digraph.DiGraph
     :param source: Source node.
     :type source: any hashable type
     :param sink: Sink node.
     :type sink: any hashable type
 
-    :return: The augmented path that was found or an empty list, if no such path exists.
+    :return: The augmenting path that was found or an empty list, if no such path exists.
     :rtype: list
     """
     visited = {}
@@ -52,26 +52,26 @@ def bfs(residual_graph, source, sink):
     return path
 
 
-def increment_flow(residual_graph, augmented_path):
+def increment_flow(residual_graph, augmenting_path):
     """
-    Increments the flow along the augmented path and returns the bottleneck value.
+    Increments the flow along the augmenting path and returns the bottleneck value.
 
-    :param residual_graph: Residual graph in which an augmented path is.
+    :param residual_graph: Residual graph in which an augmenting path is.
     :type residual_graph: networkx.classes.digraph.DiGraph
-    :param augmented_path: Augmented path in which the flow will be incremented.
-    :type augmented_path: list
+    :param augmenting_path: augmenting path in which the flow will be incremented.
+    :type augmenting_path: list
 
-    :return: Bottleneck flow value in augmented path.
+    :return: Bottleneck flow value in augmenting path.
     :rtype: int
     """
     bottleneck_flow = inf
-    for i in range(len(augmented_path) - 1):
-        edge = residual_graph.edges[augmented_path[i], augmented_path[i+1]]
+    for i in range(len(augmenting_path) - 1):
+        edge = residual_graph.edges[augmenting_path[i], augmenting_path[i+1]]
         bottleneck_flow = min(edge["max_flow"] - 
                               edge["current_flow"], bottleneck_flow)
-    for i in range(len(augmented_path) - 1):
-        edge = residual_graph.edges[augmented_path[i], augmented_path[i+1]]
-        reverse_edge = residual_graph.edges[augmented_path[i+1], augmented_path[i]]
+    for i in range(len(augmenting_path) - 1):
+        edge = residual_graph.edges[augmenting_path[i], augmenting_path[i+1]]
+        reverse_edge = residual_graph.edges[augmenting_path[i+1], augmenting_path[i]]
         if edge["current_flow"] < 0:
             sign = -1
         else:
@@ -150,11 +150,11 @@ def ford_fulkerson(graph, source, sink):
         residual_graph.add_edges_from([(edge[1], edge[0], {"max_flow":0})])
     for edge in residual_graph.edges:
         residual_graph.edges[edge[0], edge[1]]["current_flow"] = 0
-    augmented_path = bfs(residual_graph, source, sink)
+    augmenting_path = bfs(residual_graph, source, sink)
     max_flow = 0
-    while augmented_path:
-        max_flow += increment_flow(residual_graph, augmented_path)
-        augmented_path = bfs(residual_graph, source, sink)
+    while augmenting_path:
+        max_flow += increment_flow(residual_graph, augmenting_path)
+        augmenting_path = bfs(residual_graph, source, sink)
     update_flow(graph, residual_graph)
     min_cut = find_min_cut(graph, source)
     return max_flow, min_cut
